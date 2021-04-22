@@ -1,0 +1,11 @@
+temperature,vitesse-vent,meteo,retard,courir
+15.2,10,soleil,non,oui
+12.0,15,nuages,non,oui
+10.0,10,pluie,oui,non
+5.5,35,nuages,non,non
+30.0,15,soleil,oui,non
+7.0,25,pluie,non,non
+18.0,12,pluie,non,oui
+18.0,13,nuages,oui,oui
+20.5,30,soleil,non,oui
+20.0,20,pluie,oui,non
