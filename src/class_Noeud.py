@@ -72,7 +72,7 @@ class Noeud:
         bestValue = 42.0
         bestIndex = []
         bestSeuil = []
-        # NOTE: always symbolic first (more fair: grouping)
+        # NOTE: attributs symboliques d'abord, pour détecter d'éventuels regroupements.
         symbolics = list(filter(lambda x: x != self.classIndex and str(self.data.dtypes[x]) == 'object', range(0, len(self.data.columns))))
         numerics = list(filter(lambda x: x != self.classIndex and str(self.data.dtypes[x]) != 'object', range(0, len(self.data.columns))))
         symbolicFirst = symbolics + numerics
@@ -81,8 +81,8 @@ class Noeud:
             missings = list( map(lambda x: self.indices[x[0]], missings) )
             nonMissings = list( set(self.indices).difference(set(missings)) )
             if i0 < len(symbolics):
-                # Symbolic variable:
-                classes = np.unique(self.data.iloc[nonMissings,i]) #at least 2 classes
+                # Variable symbolique:
+                classes = np.unique(self.data.iloc[nonMissings,i]) #au moins deux classes
                 bestClasses = []
                 bestIndices = []
                 while True:
@@ -110,7 +110,7 @@ class Noeud:
                     if not improvement:
                         break
             else:
-                # Numeric variable:
+                # Variable numérique:
                 ordonne = self.data.iloc[nonMissings,i].argsort()
                 indices = missings + [ nonMissings[j] for j in ordonne ] + missings
                 M = len(missings)
@@ -174,13 +174,13 @@ class Noeud:
             else:
                 nonMissings += [i]
             if str(self.data.dtypes[attribut]) != 'object':
-                # Numeric variable:
+                # Variable numérique:
                 if valeur <= seuil:
                     gauche += [i]
                 else:
                     droit += [i]
             else:
-                # Symbolic: seuil = list of str
+                # Variable symbolique: seuil = liste de str
                 if valeur in seuil:
                     gauche += [i]
                 else:
@@ -249,12 +249,12 @@ class Noeud:
         if self.est_feuille() or alpha > self.alpha or est_manquant(exemple[self.attribut]):
             return self.get_classe()
         if str(self.data.dtypes[self.attribut]) != 'object':
-            # Anything but symbolic
+            # Tout sauf symbolique
             if exemple[self.attribut] <= self.seuil:
                 return self.gauche.predict(exemple, alpha)
             return self.droit.predict(exemple, alpha)
         else:
-            # Variable symbolique ('s')
+            # Variable symbolique
             if exemple[self.attribut] in self.seuil:
                 return self.gauche.predict(exemple, alpha)
             return self.droit.predict(exemple, alpha)

@@ -5,11 +5,16 @@ from src.class_Noeud import Noeud
 
 class ArbreDecision:
     # critere = 'g', 'e' ou 'm'
-    def __init__(self, data, classIndex, critere):
+    def __init__(self, data, classIndex=0, critere='g', dataTypes={}):
         self.data = data
+        if len(dataTypes) >= 1:
+            # Copie "profonde" pour ne pas modifier le jeu de données en paramètre:
+            self.data = data.copy(deep=True)
+            for dt in dataTypes.items():
+                self.data[data.axes[1][dt[0]]] = self.data[data.axes[1][dt[0]]].astype(dt[1])
         self.classIndex = classIndex
         self.critere = critere
-        self.racine = Noeud(data, classIndex, range(0, len(data)))
+        self.racine = Noeud(self.data, classIndex, range(0, len(data)))
 
     # Construction de l'arbre de décision
     def learn(self):
