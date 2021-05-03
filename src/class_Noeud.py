@@ -19,7 +19,7 @@ class Noeud:
         # Champs suivants seulement pour un noeud interne (après split):
         self.attribut = attribut  #numéro de l'attribut
         self.seuil = seuil        #point de comparaison du split (>= / <= ou != ==)
-        self.alpha = alpha        #valeur critique du paramètre d'élaguage
+        self.alpha = alpha        #valeur critique du paramètre d'élagage
         self.gauche = gauche      #sous-arbre gauche (valeurs <= au seuil)
         self.droit = droit        #sous-arbre droit (valeurs > au seuil)
 
